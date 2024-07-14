@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/home/dayvi/Рабочий стол/kwork_translater/venv/bin/python3" "$0" "$@"
+'''exec' "/home/dayvi/Рабочий стол/kwork_translator/venv/bin/python3" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re
