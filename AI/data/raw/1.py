@@ -1,32 +1,25 @@
 import pandas as pd
+import csv
 
 # Пример исходных данных
-with open('./AI/data/raw/words.txt', encoding='utf-8') as f:
+with open('./AI/data/raw/proverbs and sayings.txt') as f:
     data = f.read()
 
-# Разделение на строки и удаление скобок и их содержимого
-lines = data.split('\n')
+# Разделение на строки и обработка данных
+lines = data.strip().split('\n')
 cleaned_data = []
-for line in lines:
-    # Разделение по синонимам
-    pairs = line.split('.')
-    for pair in pairs:
-        if not pair:
-            continue
-        if '–' in pair:
-            russian, kubachin = map(str.strip, pair.split('–'))
-        if ',' in kubachin:
-            values = map(str.strip, kubachin.split(','))
-            for value in values:
-                cleaned_data.append((russian, value))
-        elif '/' in kubachin:
-            values = map(str.strip, kubachin.split('/'))
-            for value in values:
-                cleaned_data.append((russian, value))
-        else:
-            cleaned_data.append((russian, kubachin))
 
-# Преобразование в DataFrame для сохранения в CSV
+# Проход по строкам и извлечение пар "кубачинский - русский"
+for i in range(0, len(lines), 2):
+    kubachin = lines[i].strip().lstrip('• ').rstrip('.')
+    russian = lines[i + 1].strip().rstrip('.')
+    cleaned_data.append((russian, kubachin))
+
+# Преобразование в DataFrame
 df = pd.DataFrame(cleaned_data, columns=['Russian', 'Kubachin'])
 
-df.to_csv('./AI/data/processed/words.csv', index=False, encoding='utf-8')
+# Сохранение данных в CSV-файл
+df.to_csv('./AI/data/processed/proverbs and sayings.csv', index=False, encoding='utf-8')
+
+# Проверка результата
+print(df)
